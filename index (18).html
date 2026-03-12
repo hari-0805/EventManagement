@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eternelle — Luxury Event Crafters</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Josefin+Sans:wght@100;200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a96e;
+    --gold-light: #e8d5a3;
+    --gold-dark: #9a7a45;
+    --ivory: #faf6f0;
+    --cream: #f2ebe0;
+    --dark: #1a1410;
+    --dark2: #2d2318;
+    --rose: #c4796a;
+    --sage: #8a9e8c;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--ivory);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.15s, width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 2rem 4rem;
+    background: linear-gradient(to bottom, rgba(26,20,16,0.95), transparent);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(26,20,16,0.98); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .nav-logo span { font-style: italic; }
+
+  .nav-links {
+    display: flex; gap: 3rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--ivory); text-decoration: none;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    opacity: 0.7; transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  .nav-cta {
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 0.6rem 1.6rem;
+    opacity: 1 !important;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--dark) !important; }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(196,121,106,0.08) 0%, transparent 50%),
+      linear-gradient(135deg, #1a1410 0%, #2d2318 50%, #1a1410 100%);
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); pointer-events: none;
+    animation: floatOrb 8s ease-in-out infinite;
+  }
+  .orb-1 { width: 500px; height: 500px; background: rgba(201,169,110,0.06); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: rgba(196,121,106,0.07); bottom: 100px; left: 50px; animation-delay: -3s; }
+  .orb-3 { width: 200px; height: 200px; background: rgba(138,158,140,0.06); top: 200px; left: 30%; animation-delay: -5s; }
+
+  @keyframes floatOrb {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  /* Decorative lines */
+  .hero-lines {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(201,169,110,0.04) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(201,169,110,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-content {
+    text-align: center; position: relative; z-index: 2;
+    max-width: 900px; padding: 2rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+    margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; width: 60px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.6s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    color: rgba(250,246,240,0.5); margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp 1s 1s forwards;
+    max-width: 400px; margin-left: auto; margin-right: auto;
+    line-height: 2;
+  }
+
+  .hero-actions {
+    margin-top: 3.5rem;
+    display: flex; gap: 1.5rem; justify-content: center; align-items: center;
+    opacity: 0; animation: fadeUp 1s 1.3s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 1rem 2.8rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    border: none; cursor: none;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    color: var(--ivory);
+    padding: 1rem 2.8rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    border: 1px solid rgba(250,246,240,0.3);
+    cursor: none; text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute; bottom: 3rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.8rem; opacity: 0;
+    animation: fadeUp 1s 2s forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(250,246,240,0.4);
+  }
+  .scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollAnim 2s ease-in-out infinite;
+  }
+  @keyframes scrollAnim {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden; background: var(--gold);
+    padding: 1rem 0;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-size: 0.6rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--dark);
+    padding: 0 3rem; white-space: nowrap;
+    font-weight: 400;
+  }
+  .marquee-dot { color: var(--dark2); opacity: 0.5; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 8rem 4rem; position: relative; }
+
+  .section-label {
+    font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--gold); }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1.1;
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+
+  /* ABOUT */
+  .about {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  .about-visual {
+    position: relative; aspect-ratio: 3/4;
+  }
+  .about-img-frame {
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201,169,110,0.2);
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--dark2), #3d3020);
+  }
+  .about-img-frame::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(201,169,110,0.15), transparent 60%),
+      radial-gradient(ellipse at 70% 70%, rgba(196,121,106,0.1), transparent 50%);
+  }
+
+  /* SVG Art for about */
+  .about-art {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .about-corner {
+    position: absolute;
+    width: 50px; height: 50px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .about-corner.tl { top: -10px; left: -10px; border-width: 1px 0 0 1px; }
+  .about-corner.br { bottom: -10px; right: -10px; border-width: 0 1px 1px 0; }
+
+  .about-text p {
+    font-size: 0.85rem; line-height: 2; color: rgba(250,246,240,0.65);
+    margin-bottom: 1.5rem; letter-spacing: 0.02em;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 2rem; margin-top: 3rem;
+    border-top: 1px solid rgba(201,169,110,0.15);
+    padding-top: 2.5rem;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(250,246,240,0.4); margin-top: 0.4rem;
+  }
+
+  /* SERVICES */
+  .services-section { background: var(--dark2); }
+  .services-header {
+    text-align: center; max-width: 600px;
+    margin: 0 auto 5rem;
+  }
+  .services-header p {
+    font-size: 0.8rem; line-height: 2; color: rgba(250,246,240,0.5);
+    margin-top: 1.5rem; letter-spacing: 0.03em;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 1300px; margin: 0 auto;
+  }
+
+  .service-card {
+    position: relative;
+    padding: 3.5rem 2.5rem;
+    background: rgba(26,20,16,0.6);
+    overflow: hidden;
+    transition: background 0.4s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,169,110,0.05), transparent);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .service-card:hover::before { opacity: 1; }
+  .service-card:hover { background: rgba(45,35,24,0.9); }
+
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300;
+    color: rgba(201,169,110,0.08); line-height: 1;
+    position: absolute; top: 1.5rem; right: 2rem;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-number { color: rgba(201,169,110,0.15); }
+
+  .service-icon {
+    width: 48px; height: 48px; margin-bottom: 2rem;
+    color: var(--gold);
+  }
+  .service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 400;
+    margin-bottom: 1rem; color: var(--ivory);
+  }
+  .service-desc {
+    font-size: 0.75rem; line-height: 2;
+    color: rgba(250,246,240,0.5); letter-spacing: 0.03em;
+  }
+  .service-link {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    margin-top: 2rem; font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    opacity: 0; transform: translateX(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .service-card:hover .service-link { opacity: 1; transform: translateX(0); }
+  .service-link::after { content: '→'; }
+
+  /* PROCESS */
+  .process-section { overflow: hidden; }
+  .process-inner { max-width: 1300px; margin: 0 auto; }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 0; margin-top: 5rem; position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute; top: 2.5rem; left: 10%; right: 10%;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .process-step { padding: 3rem 2rem; text-align: center; }
+  .step-num-wrap {
+    width: 50px; height: 50px;
+    border: 1px solid rgba(201,169,110,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem;
+    background: var(--dark);
+    position: relative; z-index: 1;
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: var(--gold); font-weight: 300;
+  }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; margin-bottom: 1rem;
+  }
+  .step-desc {
+    font-size: 0.7rem; line-height: 2;
+    color: rgba(250,246,240,0.45); letter-spacing: 0.03em;
+  }
+
+  /* GALLERY */
+  .gallery-section { background: var(--dark2); padding: 8rem 0; }
+  .gallery-header { text-align: center; padding: 0 4rem; margin-bottom: 4rem; }
+  .gallery-header p {
+    font-size: 0.8rem; color: rgba(250,246,240,0.5);
+    max-width: 400px; margin: 1.5rem auto 0; line-height: 2;
+  }
+
+  .gallery-scroll {
+    display: flex; gap: 2px;
+    overflow-x: auto; padding: 0 4rem;
+    scrollbar-width: none;
+  }
+  .gallery-scroll::-webkit-scrollbar { display: none; }
+
+  .gallery-item {
+    flex: 0 0 320px; aspect-ratio: 2/3;
+    position: relative; overflow: hidden;
+    cursor: none;
+  }
+  .gallery-item:nth-child(2) { margin-top: 3rem; }
+  .gallery-item:nth-child(4) { margin-top: -3rem; }
+
+  .gallery-img {
+    width: 100%; height: 100%;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover .gallery-img { transform: scale(1.05); }
+
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,20,16,0.9) 0%, transparent 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay-tag {
+    font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .gallery-overlay-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 300;
+  }
+
+  /* Gallery color blocks (visual art since no images) */
+  .gc-1 { background: linear-gradient(135deg, #3d2e20, #6b4e35, #c4796a33, #3d2e20); }
+  .gc-2 { background: linear-gradient(160deg, #2a3d2e, #4a6b50, #c9a96e22, #2a3d2e); }
+  .gc-3 { background: linear-gradient(120deg, #3d2a38, #6b4060, #c9a96e33, #3d2a38); }
+  .gc-4 { background: linear-gradient(145deg, #2e3540, #4a5d70, #c9a96e22, #2e3540); }
+  .gc-5 { background: linear-gradient(135deg, #3d2e2a, #7a5548, #c9a96e33, #3d2e2a); }
+
+  .gallery-art {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .gallery-art svg { opacity: 0.3; position: absolute; }
+  .gallery-art-accent {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+
+  /* TESTIMONIALS */
+  .testimonials-section { max-width: 1000px; margin: 0 auto; text-align: center; }
+  .testimonials-section .section-label { justify-content: center; }
+  .testimonials-section .section-label::after { display: none; }
+  .testimonials-section .section-label::before { content: ''; flex: 0 0 40px; height: 1px; background: var(--gold); }
+
+  .testimonial-slider {
+    position: relative; margin-top: 4rem;
+  }
+  .testimonial {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .testimonial.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .testimonial-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 300; font-style: italic;
+    line-height: 1.6; color: var(--ivory);
+    max-width: 750px; margin: 0 auto;
+  }
+  .testimonial-author {
+    margin-top: 2.5rem;
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .testimonial-occasion {
+    font-size: 0.6rem; color: rgba(250,246,240,0.35);
+    letter-spacing: 0.1em; margin-top: 0.3rem;
+  }
+
+  .testimonial-dots {
+    display: flex; gap: 0.8rem; justify-content: center;
+    margin-top: 3rem;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    background: rgba(201,169,110,0.3);
+    border-radius: 50%; cursor: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* PACKAGES */
+  .packages-section { background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%); }
+  .packages-header { text-align: center; margin-bottom: 5rem; }
+  .packages-header p {
+    font-size: 0.8rem; color: rgba(250,246,240,0.5);
+    max-width: 400px; margin: 1.5rem auto 0; line-height: 2;
+  }
+
+  .packages-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; max-width: 1200px; margin: 0 auto;
+  }
+  .package-card {
+    padding: 3.5rem 2.5rem;
+    background: rgba(26,20,16,0.7);
+    position: relative; overflow: hidden;
+    transition: transform 0.4s;
+    cursor: none;
+  }
+  .package-card.featured {
+    background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.05));
+    border: 1px solid rgba(201,169,110,0.3);
+  }
+  .package-card.featured::before {
+    content: 'Most Loved';
+    position: absolute; top: 2rem; right: 2rem;
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dark); background: var(--gold);
+    padding: 0.3rem 0.8rem;
+  }
+  .package-card:hover { transform: translateY(-4px); }
+
+  .package-tier {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .package-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; margin-bottom: 0.5rem;
+  }
+  .package-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: rgba(250,246,240,0.4);
+    margin-bottom: 2.5rem; font-style: italic;
+  }
+  .package-divider {
+    height: 1px; background: rgba(201,169,110,0.15);
+    margin-bottom: 2rem;
+  }
+  .package-features { list-style: none; }
+  .package-features li {
+    font-size: 0.72rem; line-height: 1; padding: 0.7rem 0;
+    color: rgba(250,246,240,0.6); letter-spacing: 0.04em;
+    display: flex; align-items: center; gap: 0.8rem;
+    border-bottom: 1px solid rgba(201,169,110,0.07);
+  }
+  .package-features li::before {
+    content: '◈'; color: var(--gold); font-size: 0.5rem; flex-shrink: 0;
+  }
+  .package-cta {
+    display: block; text-align: center;
+    margin-top: 2.5rem; padding: 1rem;
+    border: 1px solid rgba(201,169,110,0.3);
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .package-cta:hover, .package-card.featured .package-cta {
+    background: var(--gold); color: var(--dark);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; max-width: 1300px; margin: 0 auto;
+    align-items: stretch;
+  }
+  .contact-left {
+    padding: 6rem 5rem;
+    background: var(--dark2);
+  }
+  .contact-left p {
+    font-size: 0.8rem; line-height: 2;
+    color: rgba(250,246,240,0.5); margin-top: 1.5rem; margin-bottom: 3rem;
+  }
+  .contact-detail {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .contact-detail-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+  .contact-detail-label {
+    font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(250,246,240,0.35); margin-bottom: 0.3rem;
+  }
+  .contact-detail-val {
+    font-size: 0.8rem; color: var(--ivory);
+  }
+
+  .contact-right {
+    padding: 6rem 5rem;
+    background: linear-gradient(135deg, rgba(201,169,110,0.07), rgba(201,169,110,0.03));
+  }
+  .contact-right .section-label { margin-bottom: 2rem; }
+
+  .form-group { margin-bottom: 1.8rem; }
+  .form-group label {
+    display: block; font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(250,246,240,0.4);
+    margin-bottom: 0.7rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; padding: 0.9rem 1.2rem;
+    background: rgba(26,20,16,0.6);
+    border: 1px solid rgba(201,169,110,0.15);
+    color: var(--ivory);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.8rem; font-weight: 200;
+    outline: none; cursor: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: rgba(201,169,110,0.5); }
+  .form-group select { appearance: none; }
+  .form-group textarea { resize: none; height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  .form-submit {
+    width: 100%; padding: 1.1rem;
+    background: var(--gold); color: var(--dark);
+    border: none; cursor: none;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    font-weight: 400;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: #110e0a;
+    padding: 5rem 4rem 3rem;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem; padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; color: var(--gold); font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .footer-brand-desc {
+    font-size: 0.72rem; line-height: 2;
+    color: rgba(250,246,240,0.35); max-width: 260px;
+  }
+  .footer-social {
+    display: flex; gap: 1rem; margin-top: 2rem;
+  }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,169,110,0.2);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(201,169,110,0.5); text-decoration: none;
+    font-size: 0.7rem; transition: border-color 0.3s, color 0.3s;
+    cursor: none;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  .footer-col h4 {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem; font-weight: 400;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.8rem; }
+  .footer-col ul a {
+    font-size: 0.72rem; color: rgba(250,246,240,0.4);
+    text-decoration: none; transition: color 0.3s; letter-spacing: 0.03em;
+    cursor: none;
+  }
+  .footer-col ul a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 2.5rem;
+  }
+  .footer-copy {
+    font-size: 0.62rem; color: rgba(250,246,240,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* GOLD LINE DECORATIONS */
+  .gold-line {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin: 2rem 0;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    .about { grid-template-columns: 1fr; gap: 3rem; }
+    .about-visual { display: none; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: repeat(2,1fr); }
+    .packages-grid { grid-template-columns: 1fr; }
+    .contact-section { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo"><span>Eter</span>nelle</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Portfolio</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#contact" class="nav-cta">Begin Your Story</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Luxury Event Architects</div>
+    <h1 class="hero-title">
+      Every Moment<br><em>Deserves</em><br>Forever
+    </h1>
+    <p class="hero-sub">We craft bespoke celebrations that transcend the ordinary — weddings, receptions, and milestone events tailored to your unique love story.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start Planning</a>
+      <a href="#gallery" class="btn-ghost">View Portfolio</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Discover</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Weddings <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Receptions <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Engagements <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Anniversary Galas <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Luxury Décor <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gourmet Catering <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cinematic Photography <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Live Entertainment <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Floral Artistry <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Weddings <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Receptions <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Engagements <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Anniversary Galas <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Luxury Décor <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gourmet Catering <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Cinematic Photography <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Live Entertainment <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Floral Artistry <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" style="padding: 10rem 4rem;">
+  <div class="about">
+    <div class="about-visual reveal">
+      <div class="about-img-frame">
+        <div class="about-art">
+          <svg width="300" height="300" viewBox="0 0 300 300">
+            <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(201,169,110,0.3)" stroke-width="0.5"/>
+            <circle cx="150" cy="150" r="90" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+            <circle cx="150" cy="150" r="60" fill="none" stroke="rgba(201,169,110,0.15)" stroke-width="0.5"/>
+            <path d="M150,30 L150,270 M30,150 L270,150" stroke="rgba(201,169,110,0.1)" stroke-width="0.5"/>
+            <path d="M65,65 L235,235 M235,65 L65,235" stroke="rgba(201,169,110,0.1)" stroke-width="0.5"/>
+            <polygon points="150,50 170,130 250,130 185,180 210,260 150,210 90,260 115,180 50,130 130,130" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          </svg>
+          <div style="text-align:center; position:relative; z-index:2;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:5rem; color:rgba(201,169,110,0.4); line-height:1;">✦</div>
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:rgba(201,169,110,0.5); font-style:italic; letter-spacing:0.1em;">Since 2018</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-corner tl"></div>
+      <div class="about-corner br"></div>
+    </div>
+
+    <div class="about-text reveal" style="transition-delay:0.2s">
+      <div class="section-label">Our Story</div>
+      <h2>Crafting <em>Unforgettable</em> Celebrations</h2>
+      <div class="gold-line"></div>
+      <p>At Eternelle, we believe every love story is singular — and every celebration should reflect that uniqueness. We are not merely event planners; we are architects of memory, weavers of atmosphere, and orchestrators of emotion.</p>
+      <p>From intimate garden weddings to grand ballroom galas, our team of dedicated artisans handles every detail with white-glove precision: breathtaking décor, curated cuisine, and cinematic photography that captures the soul of your moment.</p>
+      <p>Based in Chennai, serving across India. Every event is a masterpiece in the making.</p>
+
+      <div class="about-stats">
+        <div>
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Events Crafted</div>
+        </div>
+        <div>
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Happy Couples</div>
+        </div>
+        <div>
+          <div class="stat-num">7+</div>
+          <div class="stat-label">Years of Art</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-section">
+  <div class="services-header reveal">
+    <div class="section-label" style="justify-content:center;">
+      <span>What We Offer</span>
+    </div>
+    <h2>Six Pillars of <em>Perfection</em></h2>
+    <p>Every element of your celebration is curated, customized, and executed with obsessive attention to detail.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-number">01</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M24 4 L44 14 L44 34 L24 44 L4 34 L4 14 Z"/>
+        <circle cx="24" cy="24" r="8"/>
+        <path d="M24 16 L24 8 M24 32 L24 40 M16 24 L8 24 M32 24 L40 24"/>
+      </svg>
+      <h3 class="service-title">Bespoke Décor</h3>
+      <p class="service-desc">Every table, every arch, every petal — designed around your palette and vision. We transform venues into living art installations you'll never want to leave.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.1s">
+      <div class="service-number">02</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M8 40 L40 40 L40 16 L32 8 L8 8 Z"/>
+        <path d="M32 8 L32 16 L40 16"/>
+        <circle cx="20" cy="26" r="6"/>
+        <path d="M26 32 L34 40"/>
+      </svg>
+      <h3 class="service-title">Cinematic Photography</h3>
+      <p class="service-desc">Our award-winning photographers and videographers tell your story with artistic vision — creating heirlooms you'll treasure across generations.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.2s">
+      <div class="service-number">03</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M24 8 C14 8 8 14 8 24 C8 32 14 40 24 40 C34 40 40 32 40 24 C40 14 34 8 24 8Z"/>
+        <path d="M16 24 C16 18 20 14 24 14 C28 14 32 18 32 24"/>
+        <path d="M20 28 L24 32 L28 28"/>
+        <line x1="24" y1="32" x2="24" y2="40"/>
+      </svg>
+      <h3 class="service-title">Gourmet Catering</h3>
+      <p class="service-desc">From traditional feasts to fusion cuisines — our culinary artisans craft bespoke menus that delight every palate. Multi-course dining to live food stations.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.1s">
+      <div class="service-number">04</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M24 8 L28 18 L40 18 L30 26 L34 38 L24 30 L14 38 L18 26 L8 18 L20 18 Z"/>
+      </svg>
+      <h3 class="service-title">Floral Artistry</h3>
+      <p class="service-desc">Seasonal blooms sourced fresh and crafted into sculptures of beauty — centerpieces, mandaps, canopies, and ceremonial arrangements that breathe life into your space.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.2s">
+      <div class="service-number">05</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <rect x="8" y="14" width="32" height="22" rx="1"/>
+        <path d="M16 36 L16 42 L32 42 L32 36"/>
+        <path d="M20 24 L22 20 L24 26 L26 22 L28 24"/>
+      </svg>
+      <h3 class="service-title">Live Entertainment</h3>
+      <p class="service-desc">Curated musical acts, classical performers, DJs, and live bands — we match entertainment to the emotion of each moment in your celebration timeline.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+
+    <div class="service-card reveal" style="transition-delay:0.3s">
+      <div class="service-number">06</div>
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1">
+        <circle cx="24" cy="18" r="10"/>
+        <path d="M14 18 C8 18 6 24 6 30 L42 30 C42 24 40 18 34 18"/>
+        <line x1="24" y1="28" x2="24" y2="40"/>
+        <line x1="18" y1="40" x2="30" y2="40"/>
+      </svg>
+      <h3 class="service-title">Full Coordination</h3>
+      <p class="service-desc">From your first consultation to the final farewell — your dedicated event director orchestrates every vendor, timeline, and detail so you can be fully present in your joy.</p>
+      <a href="#contact" class="service-link">Explore</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="process-inner">
+    <div style="text-align:center; max-width:600px; margin:0 auto;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Our Process</div>
+      <h2>From <em>Dream</em> to Reality</h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num-wrap">
+          <span class="step-num">I</span>
+        </div>
+        <h3 class="step-title">Discovery</h3>
+        <p class="step-desc">We listen to your story, understand your vision, and learn what makes your love unique. An intimate consultation with no obligations.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.15s">
+        <div class="step-num-wrap">
+          <span class="step-num">II</span>
+        </div>
+        <h3 class="step-title">Curation</h3>
+        <p class="step-desc">We design a bespoke event concept — mood boards, layouts, menus, and timelines — tailored entirely to your aesthetic and desires.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.3s">
+        <div class="step-num-wrap">
+          <span class="step-num">III</span>
+        </div>
+        <h3 class="step-title">Orchestration</h3>
+        <p class="step-desc">Our team handles every vendor, every logistics detail, every contingency — so your journey to the big day is completely stress-free.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.45s">
+        <div class="step-num-wrap">
+          <span class="step-num">IV</span>
+        </div>
+        <h3 class="step-title">Your Moment</h3>
+        <p class="step-desc">On your day, you are royalty. We handle everything behind the scenes while you live fully in the magic we've created together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery-section">
+  <div class="gallery-header reveal">
+    <div class="section-label" style="justify-content:center;">Portfolio</div>
+    <h2>Stories We've <em>Told</em></h2>
+    <p>A glimpse into the celebrations we've had the honour of creating.</p>
+  </div>
+
+  <div class="gallery-scroll reveal">
+    <div class="gallery-item">
+      <div class="gallery-img gc-1 gallery-art">
+        <div style="width:120px;height:120px;border:1px solid rgba(201,169,110,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,169,110,0.5);">✦</span>
+        </div>
+        <div class="gallery-art-accent" style="width:200px;height:200px;background:rgba(196,121,106,0.2);top:20%;left:20%;"></div>
+      </div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-tag">Wedding</div>
+        <div class="gallery-overlay-title">Priya & Arjun</div>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-img gc-2 gallery-art">
+        <div style="width:80px;height:120px;border:1px solid rgba(201,169,110,0.2);display:flex;align-items:center;justify-content:center;position:relative;z-index:2;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:rgba(201,169,110,0.5);">❧</span>
+        </div>
+        <div class="gallery-art-accent" style="width:150px;height:150px;background:rgba(138,158,140,0.2);bottom:20%;right:10%;"></div>
+      </div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-tag">Reception</div>
+        <div class="gallery-overlay-title">Meera & Vikram</div>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-img gc-3 gallery-art">
+        <svg width="200" height="200" viewBox="0 0 200 200" style="position:relative;z-index:2;">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(201,169,110,0.25)" stroke-width="0.5"/>
+          <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(201,169,110,0.2)" stroke-width="0.5"/>
+          <path d="M100,20 L100,180 M20,100 L180,100" stroke="rgba(201,169,110,0.15)" stroke-width="0.5"/>
+        </svg>
+        <div class="gallery-art-accent" style="width:180px;height:180px;background:rgba(196,121,106,0.15);top:10%;left:30%;"></div>
+      </div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-tag">Engagement</div>
+        <div class="gallery-overlay-title">Ananya & Rohan</div>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-img gc-4 gallery-art">
+        <div style="width:100px;height:100px;border:1px solid rgba(201,169,110,0.2);transform:rotate(45deg);display:flex;align-items:center;justify-content:center;position:relative;z-index:2;">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:rgba(201,169,110,0.5);transform:rotate(-45deg);">◈</span>
+        </div>
+        <div class="gallery-art-accent" style="width:220px;height:220px;background:rgba(74,93,112,0.2);bottom:0;right:0;"></div>
+      </div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-tag">Anniversary Gala</div>
+        <div class="gallery-overlay-title">The Krishnamurthy's</div>
+      </div>
+    </div>
+
+    <div class="gallery-item">
+      <div class="gallery-img gc-5 gallery-art">
+        <div style="text-align:center;position:relative;z-index:2;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(201,169,110,0.4);letter-spacing:0.2em;font-style:italic;">FOREVER</div>
+          <div style="width:80px;height:1px;background:rgba(201,169,110,0.2);margin:1rem auto;"></div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:rgba(201,169,110,0.3);">∞</div>
+        </div>
+        <div class="gallery-art-accent" style="width:200px;height:200px;background:rgba(122,85,72,0.2);top:0;left:0;"></div>
+      </div>
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-tag">Destination Wedding</div>
+        <div class="gallery-overlay-title">Deepa & Karthik</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="padding: 8rem 4rem;">
+  <div class="testimonials-section">
+    <div class="reveal">
+      <div class="section-label">Kind Words</div>
+      <h2>What Our Couples <em>Say</em></h2>
+    </div>
+
+    <div class="testimonial-slider reveal" style="transition-delay:0.2s">
+      <div class="testimonial active">
+        <p class="testimonial-quote">"Eternelle didn't just plan our wedding — they understood who we are. Every flower, every dish, every photograph told our story. It was beyond anything we could have imagined."</p>
+        <div class="testimonial-author">Priya & Arjun Sharma</div>
+        <div class="testimonial-occasion">Garden Wedding, Chennai — March 2024</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"From the first meeting, we knew we were in extraordinary hands. The décor made our guests gasp. The food made them weep. Our memories will last forever."</p>
+        <div class="testimonial-author">Meera & Vikram Nair</div>
+        <div class="testimonial-occasion">Grand Reception, Coimbatore — November 2023</div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-quote">"Our wedding was flawless. Every single detail was exactly as we dreamed — and several details we hadn't even thought to dream. The photography is breathtaking."</p>
+        <div class="testimonial-author">Ananya & Rohan Pillai</div>
+        <div class="testimonial-occasion">Destination Wedding, Pondicherry — January 2024</div>
+      </div>
+    </div>
+    <div class="testimonial-dots">
+      <div class="dot active" onclick="showTestimonial(0)"></div>
+      <div class="dot" onclick="showTestimonial(1)"></div>
+      <div class="dot" onclick="showTestimonial(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="packages-section">
+  <div class="packages-header reveal">
+    <div class="section-label" style="justify-content:center;">Investment</div>
+    <h2>Choose Your <em>Canvas</em></h2>
+    <p>Every package is customizable. These are starting points, not limits.</p>
+  </div>
+
+  <div class="packages-grid">
+    <div class="package-card reveal">
+      <div class="package-tier">Intimate</div>
+      <div class="package-name">Blossom</div>
+      <div class="package-price">Starting from ₹3,50,000</div>
+      <div class="package-divider"></div>
+      <ul class="package-features">
+        <li>Event Planning & Coordination</li>
+        <li>Décor for up to 100 Guests</li>
+        <li>Photography (8 hours)</li>
+        <li>Catering — 3 Course Menu</li>
+        <li>Basic Floral Arrangements</li>
+        <li>1 Coordinator on Event Day</li>
+      </ul>
+      <a href="#contact" class="package-cta">Enquire Now</a>
+    </div>
+
+    <div class="package-card featured reveal" style="transition-delay:0.15s">
+      <div class="package-tier">Signature</div>
+      <div class="package-name">Ethereal</div>
+      <div class="package-price">Starting from ₹8,50,000</div>
+      <div class="package-divider"></div>
+      <ul class="package-features">
+        <li>Full Event Planning & Mgmt</li>
+        <li>Décor for up to 300 Guests</li>
+        <li>Photography + Videography</li>
+        <li>Catering — 5 Course Gourmet</li>
+        <li>Premium Floral Artistry</li>
+        <li>Live Entertainment</li>
+        <li>2 Coordinators on Event Day</li>
+        <li>Complimentary Trial Run</li>
+      </ul>
+      <a href="#contact" class="package-cta">Enquire Now</a>
+    </div>
+
+    <div class="package-card reveal" style="transition-delay:0.3s">
+      <div class="package-tier">Prestige</div>
+      <div class="package-name">Lumière</div>
+      <div class="package-price">Fully Bespoke</div>
+      <div class="package-divider"></div>
+      <ul class="package-features">
+        <li>Unlimited Guest Count</li>
+        <li>Multi-Day Event Planning</li>
+        <li>Full Cinematic Production</li>
+        <li>International Cuisine Curation</li>
+        <li>Exclusive Venue Sourcing</li>
+        <li>Celebrity Entertainment Options</li>
+        <li>Dedicated Event Director</li>
+        <li>White-Glove Hospitality</li>
+      </ul>
+      <a href="#contact" class="package-cta">Begin Conversation</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding: 8rem 4rem;">
+  <div style="text-align:center; margin-bottom:4rem;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Get In Touch</div>
+    <h2>Let's Write Your <em>Story</em></h2>
+  </div>
+  <div class="contact-section reveal" style="transition-delay:0.2s">
+    <div class="contact-left">
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; margin-bottom:1rem;">We'd love to hear about your vision.</h3>
+      <p>Whether you have a clear idea or just a feeling — reach out and let's start the conversation. Our first consultation is always complimentary.</p>
+
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5a19.79 19.79 0 01-3.07-8.72A2 2 0 012.18 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l1.45-1.45a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg>
+        <div>
+          <div class="contact-detail-label">Phone</div>
+          <div class="contact-detail-val">+91 98400 00000</div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div>
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-val">hello@eternelle.in</div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div>
+          <div class="contact-detail-label">Studio</div>
+          <div class="contact-detail-val">Anna Nagar, Chennai, Tamil Nadu</div>
+        </div>
+      </div>
+
+      <div style="margin-top:3rem;">
+        <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(250,246,240,0.4);margin-bottom:1rem;">Follow Our Work</div>
+        <div style="display:flex;gap:1rem;">
+          <a href="#" class="social-link">ig</a>
+          <a href="#" class="social-link">fb</a>
+          <a href="#" class="social-link">yt</a>
+          <a href="#" class="social-link">pi</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <div class="section-label">Begin Your Journey</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Full name">
+        </div>
+        <div class="form-group">
+          <label>Partner's Name</label>
+          <input type="text" placeholder="Full name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+91 00000 00000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Event Type</label>
+          <select>
+            <option value="" disabled selected>Select event type</option>
+            <option>Wedding Ceremony</option>
+            <option>Reception</option>
+            <option>Engagement</option>
+            <option>Anniversary Gala</option>
+            <option>Destination Wedding</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Event Date</label>
+          <input type="date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Your Vision</label>
+        <textarea placeholder="Tell us about your dream celebration..."></textarea>
+      </div>
+      <button class="form-submit">Send My Enquiry ✦</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name"><em>Eter</em>nelle</div>
+      <p class="footer-brand-desc">Luxury event architects crafting unforgettable celebrations across India since 2018.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">ig</a>
+        <a href="#" class="social-link">fb</a>
+        <a href="#" class="social-link">yt</a>
+        <a href="#" class="social-link">pi</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Weddings</a></li>
+        <li><a href="#">Receptions</a></li>
+        <li><a href="#">Engagements</a></li>
+        <li><a href="#">Anniversary Galas</a></li>
+        <li><a href="#">Destination Events</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Offerings</h4>
+      <ul>
+        <li><a href="#">Bespoke Décor</a></li>
+        <li><a href="#">Photography</a></li>
+        <li><a href="#">Catering</a></li>
+        <li><a href="#">Floral Artistry</a></li>
+        <li><a href="#">Entertainment</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Packages</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Eternelle Event Architects. All rights reserved.</div>
+    <div class="footer-copy" style="letter-spacing:0.15em; color:rgba(201,169,110,0.3);">✦ CRAFTED WITH LOVE ✦</div>
+  </div>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .dot, .service-card, .package-card, .gallery-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '60px'; ring.style.height = '60px';
+      ring.style.opacity = '0.4';
+      ring.style.marginLeft = '-12px'; ring.style.marginTop = '-12px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.opacity = '0.6';
+      ring.style.marginLeft = '0'; ring.style.marginTop = '0';
+    });
+  });
+
+  // SCROLL REVEAL
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // NAV SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // TESTIMONIALS
+  let currentT = 0;
+  function showTestimonial(i) {
+    document.querySelectorAll('.testimonial').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.testimonial')[i].classList.add('active');
+    document.querySelectorAll('.dot')[i].classList.add('active');
+    currentT = i;
+  }
+  setInterval(() => {
+    showTestimonial((currentT + 1) % 3);
+  }, 5000);
+</script>
+</body>
+</html>
