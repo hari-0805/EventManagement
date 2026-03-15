@@ -1160,21 +1160,36 @@ function toggleFaq(btn){
 
 // ── SUPABASE DYNAMIC CONTENT ──
 const SB_URL = 'https://jmxtlrytqrkzpxmevhrs.supabase.co';
-const SB_KEY = 'sb_publishable_8cBu--8bHfzK0aIJmCPIHg_q6Q2vAar';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpteHRscnl0cXJrenB4bWV2aHJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1ODQyMjYsImV4cCI6MjA4OTE2MDIyNn0.amQDu9DASxEIPDLBZqccwtjYTQrGiLStVlJqmb2ENHk1';
 
 async function sbFetch(table, query){
   const res = await fetch(`${SB_URL}/rest/v1/${table}?${query}`, {
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'}
+    headers:{
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json'
+    }
   });
+  if(!res.ok) throw new Error('Fetch failed: ' + res.status);
   return res.json();
 }
 
 async function sbPost(table, data){
-  await fetch(`${SB_URL}/rest/v1/${table}`, {
-    method:'POST',
-    headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify(data)
+  const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers:{
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(data)
   });
+  if(!res.ok){
+    const err = await res.text();
+    throw new Error('Post failed: ' + res.status + ' — ' + err);
+  }
+  return true;
 }
 
 // LOAD HERO SLIDES
@@ -1280,28 +1295,47 @@ async function loadServices(){
 // CONTACT FORM SUBMIT TO SUPABASE
 async function submitContact(){
   const btn = document.querySelector('.f-btn');
+  const inputs = document.querySelectorAll('input[placeholder="Full name"]');
   const data = {
-    your_name:     document.querySelector('input[placeholder="Full name"]')?.value||'',
-    partner_name:  document.querySelectorAll('input[placeholder="Full name"]')[1]?.value||'',
-    email:         document.querySelector('input[type="email"]')?.value||'',
-    phone:         document.querySelector('input[type="tel"]')?.value||'',
-    event_type:    document.querySelectorAll('select')[0]?.value||'',
-    event_date:    document.querySelector('input[type="date"]')?.value||'',
-    services:      document.querySelectorAll('select')[1]?.value||'',
-    message:       document.querySelector('textarea')?.value||'',
-    is_read:       false
+    your_name:    inputs[0]?.value.trim()||'',
+    partner_name: inputs[1]?.value.trim()||'',
+    email:        document.querySelector('input[type="email"]')?.value.trim()||'',
+    phone:        document.querySelector('input[type="tel"]')?.value.trim()||'',
+    event_type:   document.querySelectorAll('select')[0]?.value||'',
+    event_date:   document.querySelector('input[type="date"]')?.value||'',
+    services:     document.querySelectorAll('select')[1]?.value||'',
+    message:      document.querySelector('textarea')?.value.trim()||'',
+    is_read:      false
   };
-  if(!data.your_name||!data.email){ alert('Please enter your name and email.'); return; }
-  btn.textContent='Sending...'; btn.disabled=true;
+  if(!data.your_name){ alert('Please enter your name.'); return; }
+  if(!data.email){ alert('Please enter your email.'); return; }
+  btn.textContent='Sending...';
+  btn.disabled=true;
+  btn.style.opacity='.7';
   try {
     await sbPost('contacts', data);
     btn.textContent='✓ Sent! We will contact you soon.';
     btn.style.background='#55b855';
-    setTimeout(()=>{btn.textContent='Send My Enquiry';btn.style.background='';btn.disabled=false;},4000);
+    btn.style.opacity='1';
+    // Clear form
+    document.querySelectorAll('.c-right input,.c-right textarea').forEach(el=>el.value='');
+    document.querySelectorAll('.c-right select').forEach(el=>el.selectedIndex=0);
+    setTimeout(()=>{
+      btn.textContent='Send My Enquiry';
+      btn.style.background='';
+      btn.disabled=false;
+      btn.style.opacity='1';
+    },5000);
   } catch(e){
-    btn.textContent='Error — try again';
+    console.error('Contact error:',e);
+    btn.textContent='Failed — please try again';
     btn.style.background='#e05555';
-    setTimeout(()=>{btn.textContent='Send My Enquiry';btn.style.background='';btn.disabled=false;},3000);
+    btn.style.opacity='1';
+    btn.disabled=false;
+    setTimeout(()=>{
+      btn.textContent='Send My Enquiry';
+      btn.style.background='';
+    },4000);
   }
 }
 
