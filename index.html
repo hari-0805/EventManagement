@@ -124,14 +124,14 @@ h2 em{font-style:italic;color:var(--gold)}
 /* ABOUT */
 .about-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .about-vis{position:relative;aspect-ratio:3/4}
-.about-frame{position:absolute;inset:0;border:1px solid rgba(201,169,110,.22);overflow:hidden}
+.about-frame{position:absolute;inset:0;border:1px solid rgba(196,154,122,.2);overflow:hidden}
 .about-frame img{width:100%;height:100%;object-fit:cover;filter:brightness(.88) sepia(.08)}
 .about-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.55),transparent 50%)}
 .corner{position:absolute;width:42px;height:42px;border-color:var(--gold);border-style:solid;opacity:.45;z-index:2}
 .corner.tl{top:-7px;left:-7px;border-width:1px 0 0 1px}
 .corner.br{bottom:-7px;right:-7px;border-width:0 1px 1px 0}
-.about-text p{font-size:.96rem;line-height:2.1;color:rgba(250,246,240,.68);margin-bottom:1.5rem}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(201,169,110,.15)}
+.about-text p{font-size:.96rem;line-height:2.1;color:rgba(232,240,248,.7);margin-bottom:1.5rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(196,154,122,.2)}
 .sn{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--gold);line-height:1}
 .sl{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,246,240,.4);margin-top:.4rem}
 
@@ -145,7 +145,7 @@ h2 em{font-style:italic;color:var(--gold)}
 .svc-card:hover .svc-photo{transform:scale(1.08);filter:brightness(.5) saturate(.85)}
 .svc-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.95) 0%,rgba(26,20,16,.35) 55%,transparent 100%);transition:background .4s}
 .svc-card:hover .svc-ov{background:linear-gradient(to top,rgba(45,35,24,.98) 0%,rgba(26,20,16,.6) 65%,rgba(26,20,16,.18) 100%)}
-.svc-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:rgba(201,169,110,.13);line-height:1;position:absolute;top:.9rem;right:1.2rem;user-select:none;transition:color .4s}
+.svc-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;color:rgba(168,184,208,.2);line-height:1;position:absolute;top:.9rem;right:1.2rem;user-select:none;transition:color .4s}
 .svc-card:hover .svc-n{color:rgba(201,169,110,.25)}
 .svc-body{position:absolute;bottom:0;left:0;right:0;padding:1.8rem 1.6rem}
 .svc-ico{width:36px;height:36px;margin-bottom:1rem;color:var(--gold)}
@@ -167,7 +167,7 @@ h2 em{font-style:italic;color:var(--gold)}
 .si-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.72),transparent 60%)}
 .si-lbl{position:absolute;bottom:1.6rem;left:1.8rem}
 .si-tag{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
-.si-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;opacity:0;transform:translateY(7px);transition:opacity .4s,transform .4s}
+.si-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--ivory);color:var(--ivory);opacity:0;transform:translateY(7px);transition:opacity .4s,transform .4s}
 .si:hover .si-title{opacity:1;transform:translateY(0)}
 
 /* PROCESS */
@@ -178,7 +178,7 @@ h2 em{font-style:italic;color:var(--gold)}
 .proc-step{padding:2.5rem 1.6rem;text-align:center}
 .step-circle{width:48px;height:48px;border:1px solid rgba(201,169,110,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.8rem;background:var(--dark);position:relative;z-index:1}
 .step-num{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);font-weight:300}
-.step-ttl{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:.85rem}
+.step-ttl{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:.85rem;color:var(--ivory)}
 .step-dsc{font-size:.8rem;line-height:2;color:rgba(250,246,240,.48)}
 
 /* GALLERY */
@@ -192,10 +192,10 @@ h2 em{font-style:italic;color:var(--gold)}
 .gal-item:nth-child(4){margin-top:-2.5rem}
 .gal-photo{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:brightness(.85) saturate(.95)}
 .gal-item:hover .gal-photo{transform:scale(1.06)}
-.gal-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.9),transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.7rem;opacity:0;transition:opacity .4s}
+.gal-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.72),transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.7rem;opacity:0;transition:opacity .4s}
 .gal-item:hover .gal-ov{opacity:1}
 .gal-tag{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
-.gal-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300}
+.gal-name{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:var(--ivory)}
 
 /* TESTIMONIALS */
 .testi-wrap{max-width:880px;margin:0 auto;text-align:center}
@@ -207,7 +207,7 @@ h2 em{font-style:italic;color:var(--gold)}
 .ta{margin-top:2rem;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .to{font-size:.68rem;color:rgba(250,246,240,.35);letter-spacing:.1em;margin-top:.35rem}
 .dots{display:flex;gap:.7rem;justify-content:center;margin-top:2.5rem}
-.dot{width:7px;height:7px;background:rgba(201,169,110,.28);border-radius:50%;cursor:pointer;transition:background .3s,transform .3s}
+.dot{width:7px;height:7px;background:rgba(184,150,62,.25);border-radius:50%;cursor:pointer;transition:background .3s,transform .3s}
 .dot.active{background:var(--gold);transform:scale(1.4)}
 
 /* PACKAGES */
@@ -220,32 +220,34 @@ h2 em{font-style:italic;color:var(--gold)}
 .pkg-card.feat{background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.04));border:1px solid rgba(201,169,110,.28)}
 .pkg-badge{position:absolute;top:1.6rem;right:1.6rem;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dark);background:var(--gold);padding:.25rem .7rem}
 .pkg-tier{font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
-.pkg-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-bottom:.35rem}
+.pkg-name{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;margin-bottom:.35rem;color:var(--ivory)}
 .pkg-price{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(250,246,240,.42);margin-bottom:1.8rem;font-style:italic}
 .pkg-div{height:1px;background:rgba(201,169,110,.13);margin-bottom:1.7rem}
 .pkg-ul{list-style:none}
-.pkg-ul li{font-size:.8rem;padding:.6rem 0;color:rgba(250,246,240,.62);display:flex;align-items:center;gap:.7rem;border-bottom:1px solid rgba(201,169,110,.07)}
+.pkg-ul li{font-size:.8rem;padding:.6rem 0;color:rgba(250,246,240,.62);display:flex;align-items:center;gap:.7rem;border-bottom:1px solid rgba(196,154,122,.1)}
 .pkg-ul li::before{content:'◈';color:var(--gold);font-size:.5rem;flex-shrink:0}
+.pkg-section-title{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:1.2rem 0 .5rem;font-weight:400}
+.pkg-sub{font-size:.75rem;color:rgba(250,246,240,.42);margin-bottom:1.2rem;line-height:1.7;font-style:italic}
 .pkg-cta{display:block;text-align:center;margin-top:2rem;padding:.9rem;border:1px solid rgba(201,169,110,.3);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;transition:background .3s,color .3s}
-.pkg-cta:hover,.pkg-card.feat .pkg-cta{background:var(--gold);color:var(--dark)}
+.pkg-cta:hover,.pkg-card.feat .pkg-cta{background:var(--gold);color:#fff0f0}
 
 /* FAQ */
 .faq-bg{background:var(--dark2)}
 .faq-inner{max-width:840px;margin:0 auto}
 .faq-hd{text-align:center;margin-bottom:4rem}
 .faq-hd p{font-size:.92rem;color:rgba(250,246,240,.5);margin-top:1rem;line-height:2;max-width:500px;margin-left:auto;margin-right:auto}
-.faq-item{border-bottom:1px solid rgba(201,169,110,.15)}
+.faq-item{border-bottom:1px solid rgba(196,154,122,.18)}
 .faq-q{width:100%;background:none;border:none;display:flex;align-items:center;justify-content:space-between;padding:1.7rem 0;cursor:pointer;gap:1.5rem;text-align:left}
 .faq-q-text{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:400;color:var(--ivory);line-height:1.4}
 .faq-icon{width:30px;height:30px;flex-shrink:0;border:1px solid rgba(201,169,110,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.1rem;transition:transform .35s,background .3s,color .3s}
-.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--gold);color:var(--dark)}
-.faq-a{font-size:.9rem;line-height:2;color:rgba(250,246,240,.64);max-height:0;overflow:hidden;transition:max-height .45s ease,padding-bottom .3s}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--gold);color:#fff0f0}
+.faq-a{font-size:.9rem;line-height:2;color:rgba(250,246,240,.65);max-height:0;overflow:hidden;transition:max-height .45s ease,padding-bottom .3s}
 .faq-item.open .faq-a{max-height:300px;padding-bottom:1.8rem}
 
 /* CONTACT */
 .contact-wrap{display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0 auto}
 .c-left{padding:4.5rem 3.5rem;background:var(--dark2)}
-.c-left h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:.9rem}
+.c-left h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:.9rem;color:var(--ivory)}
 .c-left>p{font-size:.9rem;line-height:2;color:rgba(250,246,240,.52);margin-bottom:2.5rem}
 .c-row{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.8rem}
 .c-row svg{color:var(--gold);flex-shrink:0;margin-top:3px}
@@ -253,7 +255,7 @@ h2 em{font-style:italic;color:var(--gold)}
 .c-val{font-size:.9rem;color:var(--ivory)}
 .c-note{font-size:.66rem;color:rgba(201,169,110,.52);margin-top:.3rem}
 .soc{display:flex;gap:.85rem;margin-top:.5rem}
-.soc a{width:40px;height:40px;border:1px solid rgba(201,169,110,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.5);text-decoration:none;transition:all .35s;cursor:none;position:relative;overflow:hidden}
+.soc a{width:40px;height:40px;border:1px solid rgba(196,154,122,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(201,169,110,.5);text-decoration:none;transition:all .35s;cursor:none;position:relative;overflow:hidden}
 .soc a svg{width:20px;height:20px;transition:transform .3s,color .3s;position:relative;z-index:1}
 .soc a::before{content:'';position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .35s;transform:scale(0);transition:transform .35s,opacity .35s}
 .soc a:hover{border-color:transparent;color:#fff;transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
@@ -280,7 +282,7 @@ h2 em{font-style:italic;color:var(--gold)}
 
 /* FOOTER */
 footer{background:#100d09;padding:4.5rem 4rem 2.2rem}
-.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(201,169,110,.1)}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(196,154,122,.15)}
 .f-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);font-weight:300;margin-bottom:.9rem}
 .f-logo em{font-style:italic}
 .f-desc{font-size:.8rem;line-height:2;color:rgba(250,246,240,.32);max-width:240px}
@@ -682,63 +684,195 @@ footer{background:#100d09;padding:4.5rem 4rem 2.2rem}
 <!-- PACKAGES -->
 <section id="packages" class="pkg-bg">
   <div class="pkg-hd reveal">
-    <div class="lbl lbl-c">Investment</div>
-    <h2>Our <em>Packages</em></h2>
-    <p>Every package is customizable. These are starting points, not limits.</p>
+    <div class="lbl lbl-c">Our Plans</div>
+    <h2>Choose Your <em>Plan</em></h2>
+    <p>Three clear plans to suit every budget and dream. All plans can be customized to your needs.</p>
   </div>
   <div class="pkg-grid">
+
+    <!-- PLAN 1 -->
     <div class="pkg-card reveal">
-      <div class="pkg-tier">Starter</div>
-      <div class="pkg-name">Basic</div>
-      
+      <div class="pkg-tier">Plan 1 — Small Budget</div>
+      <div class="pkg-name">Silver</div>
+      <div class="pkg-sub">Best for intimate ceremonies up to 250 guests</div>
       <div class="pkg-div"></div>
+
+      <div class="pkg-section-title">🎀 Decor</div>
       <ul class="pkg-ul">
-        <li>Event Planning &amp; Coordination</li>
-        <li>Decor for up to 100 Guests</li>
-        <li>Photography (8 hours)</li>
-        <li>Catering — 3 Course Menu</li>
-        <li>Basic Garlands &amp; Florals</li>
-        <li>Bridal Makeup (1 session)</li>
-        <li>1 Coordinator on Event Day</li>
+        <li>Basic stage &amp; mandap decoration</li>
+        <li>Simple floral arrangements</li>
+        <li>Entrance gate decor</li>
+        <li>Table &amp; chair arrangements</li>
+        <li>Limited customization available</li>
       </ul>
+
+      <div class="pkg-section-title">💄 Bridal Makeup</div>
+      <ul class="pkg-ul">
+        <li>1 makeup session (wedding day only)</li>
+        <li>Traditional South Indian bridal look</li>
+        <li>Basic hair styling included</li>
+      </ul>
+
+      <div class="pkg-section-title">💐 Garlands</div>
+      <ul class="pkg-ul">
+        <li>Bridal &amp; groom jaimala garlands</li>
+        <li>Fresh jasmine &amp; marigold</li>
+        <li>Limited garland styles available</li>
+      </ul>
+
+      <div class="pkg-section-title">📸 Photography</div>
+      <ul class="pkg-ul">
+        <li>Photography only (6 hours)</li>
+        <li>100 edited photos delivered</li>
+      </ul>
+
+      <div class="pkg-section-title">🍽️ Catering</div>
+      <ul class="pkg-ul">
+        <li>Traditional vegetarian menu</li>
+        <li>Up to 250 guests</li>
+        <li>Served on banana leaf</li>
+      </ul>
+
+      <div class="pkg-section-title">📋 Coordination</div>
+      <ul class="pkg-ul">
+        <li>1 event coordinator on the day</li>
+        <li>Basic event timeline management</li>
+      </ul>
+
       <a href="#contact" class="pkg-cta">Enquire Now</a>
     </div>
+
+    <!-- PLAN 2 -->
     <div class="pkg-card feat reveal" style="transition-delay:.12s">
-      <div class="pkg-badge">Most Loved</div>
-      <div class="pkg-tier">Popular</div>
-      <div class="pkg-name">Standard</div>
-      
+      <div class="pkg-badge">Most Popular</div>
+      <div class="pkg-tier">Plan 2 — Mid Budget</div>
+      <div class="pkg-name">Gold</div>
+      <div class="pkg-sub">Best for weddings &amp; receptions up to 300 guests</div>
       <div class="pkg-div"></div>
+
+      <div class="pkg-section-title">🎀 Decor</div>
       <ul class="pkg-ul">
-        <li>Full Event Planning &amp; Management</li>
-        <li>Decor for up to 300 Guests</li>
-        <li>Photography &amp; Videography</li>
-        <li>Catering — 5 Course Gourmet</li>
-        <li>Premium Garlands &amp; Florals</li>
-        <li>Bridal Makeup &amp; Hair Styling</li>
-        <li>DJ &amp; Live Entertainment</li>
-        <li>2 Coordinators on Event Day</li>
+        <li>Premium stage &amp; mandap decoration</li>
+        <li>Floral backdrop &amp; photo wall</li>
+        <li>Entrance arch with fresh flowers</li>
+        <li>Full venue decoration with lighting</li>
+        <li>Table centerpieces &amp; candles</li>
+        <li>Full decor customization available</li>
       </ul>
+
+      <div class="pkg-section-title">💄 Bridal Makeup</div>
+      <ul class="pkg-ul">
+        <li>2 makeup sessions (trial + wedding day)</li>
+        <li>Traditional or modern bridal look</li>
+        <li>Full hair styling &amp; saree draping</li>
+        <li>Touch-up support throughout event</li>
+      </ul>
+
+      <div class="pkg-section-title">💐 Garlands</div>
+      <ul class="pkg-ul">
+        <li>Bridal &amp; groom jaimala garlands</li>
+        <li>Mandap garland decorations</li>
+        <li>Fresh jasmine, rose &amp; marigold</li>
+        <li>Full garland style customization</li>
+      </ul>
+
+      <div class="pkg-section-title">📸 Photography</div>
+      <ul class="pkg-ul">
+        <li>Photography &amp; videography (10 hours)</li>
+        <li>300 edited photos + highlight reel</li>
+        <li>Same-day preview photos</li>
+      </ul>
+
+      <div class="pkg-section-title">🍽️ Catering</div>
+      <ul class="pkg-ul">
+        <li>Veg &amp; non-veg menu options</li>
+        <li>Up to 300 guests</li>
+        <li>Live food counters included</li>
+      </ul>
+
+      <div class="pkg-section-title">🎵 Entertainment</div>
+      <ul class="pkg-ul">
+        <li>DJ with full sound &amp; light setup</li>
+        <li>3 hours of DJ entertainment</li>
+      </ul>
+
+      <div class="pkg-section-title">📋 Coordination</div>
+      <ul class="pkg-ul">
+        <li>2 coordinators on the day</li>
+        <li>Full vendor management</li>
+        <li>Complete event timeline</li>
+      </ul>
+
       <a href="#contact" class="pkg-cta">Enquire Now</a>
     </div>
+
+    <!-- PLAN 3 -->
     <div class="pkg-card reveal" style="transition-delay:.24s">
-      <div class="pkg-tier">Luxury</div>
-      <div class="pkg-name">Premium</div>
-      
+      <div class="pkg-tier">Plan 3 — High Budget</div>
+      <div class="pkg-name">Diamond</div>
+      <div class="pkg-sub">Best for grand multi-day weddings, unlimited guests</div>
       <div class="pkg-div"></div>
+
+      <div class="pkg-section-title">🎀 Decor</div>
       <ul class="pkg-ul">
-        <li>Unlimited Guest Count</li>
-        <li>Multi-Day Event Planning</li>
-        <li>Full Cinematic Production</li>
-        <li>International Cuisine Curation</li>
-        <li>Celebrity Makeup Artists</li>
-        <li>Exclusive Garland &amp; Floral Art</li>
-        <li>Live Band &amp; DJ Package</li>
-        <li>Dedicated Event Director</li>
+        <li>Luxury bespoke theme — fully customized</li>
+        <li>Multi-day venue transformation</li>
+        <li>Imported &amp; exotic floral arrangements</li>
+        <li>Grand entrance &amp; stage design</li>
+        <li>Custom lighting &amp; draping setup</li>
       </ul>
-      <a href="#contact" class="pkg-cta">Begin Conversation</a>
+
+      <div class="pkg-section-title">💄 Bridal Makeup</div>
+      <ul class="pkg-ul">
+        <li>3 makeup sessions (mehendi + trial + wedding)</li>
+        <li>Celebrity-level bridal makeover</li>
+        <li>Hair styling for all 3 days</li>
+        <li>Makeup for bridesmaids (2 people)</li>
+        <li>Full touch-up team on event days</li>
+      </ul>
+
+      <div class="pkg-section-title">💐 Garlands</div>
+      <ul class="pkg-ul">
+        <li>Premium custom jaimala garlands</li>
+        <li>Full venue garland installations</li>
+        <li>Exotic flower varieties on request</li>
+        <li>Complete garland customization</li>
+      </ul>
+
+      <div class="pkg-section-title">📸 Photography</div>
+      <ul class="pkg-ul">
+        <li>Full cinematic photo &amp; video team</li>
+        <li>Multi-day coverage (all events)</li>
+        <li>Drone shots included</li>
+        <li>500+ edited photos + full film</li>
+      </ul>
+
+      <div class="pkg-section-title">🍽️ Catering</div>
+      <ul class="pkg-ul">
+        <li>Gourmet multi-cuisine menu</li>
+        <li>Unlimited guests</li>
+        <li>Live cooking stations &amp; dessert bar</li>
+      </ul>
+
+      <div class="pkg-section-title">🎵 Entertainment</div>
+      <ul class="pkg-ul">
+        <li>Live band + DJ package</li>
+        <li>Full sound, light &amp; LED setup</li>
+        <li>Entertainment across all event days</li>
+      </ul>
+
+      <div class="pkg-section-title">📋 Coordination</div>
+      <ul class="pkg-ul">
+        <li>Dedicated event director</li>
+        <li>Full team of coordinators</li>
+        <li>End-to-end planning from day one</li>
+      </ul>
+
+      <a href="#contact" class="pkg-cta">Get a Custom Quote</a>
     </div>
+
   </div>
+  <p style="text-align:center;margin-top:2.5rem;font-size:.8rem;color:rgba(250,246,240,.38);letter-spacing:.08em;">All plans are fully customizable. Contact us to mix and match services to fit your exact budget and vision.</p>
 </section>
 
 <!-- FAQ -->
