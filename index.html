@@ -1092,7 +1092,6 @@ footer{background:#100d09;padding:4.5rem 4rem 2.2rem}
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // CURSOR — desktop/mouse only
 var isMouse = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
@@ -1159,31 +1158,37 @@ function toggleFaq(btn){
   if(!isOpen) item.classList.add('open');
 }
 
-// ── SUPABASE CLIENT ──
+// ── SUPABASE SETUP ──
 const SB_URL = 'https://jmxtlrytqrkzpxmevhrs.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpteHRscnl0cXJrenB4bWV2aHJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1ODQyMjYsImV4cCI6MjA4OTE2MDIyNn0.amQDu9DASxEIPDLBZqccwtjYTQrGiLStVlJqmb2ENHk1';
-const sb = supabase.createClient('https://jmxtlrytqrkzpxmevhrs.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpteHRscnl0cXJrenB4bWV2aHJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1ODQyMjYsImV4cCI6MjA4OTE2MDIyNn0.amQDu9DASxEIPDLBZqccwtjYTQrGiLStVlJqmb2ENHk1');
+const SB_HDR = {
+  'apikey': SB_KEY,
+  'Authorization': 'Bearer ' + SB_KEY,
+  'Content-Type': 'application/json'
+};
 
-async function sbFetch(table, filters){
-  let q = sb.from(table).select('*');
-  if(filters) Object.entries(filters).forEach(([k,v])=>{ q=q.eq(k,v); });
-  q = q.order('sort_order', {ascending:true, nullsFirst:false});
-  const {data,error} = await q;
-  if(error) throw error;
-  return data;
+async function sbFetch(table, params){
+  const q = new URLSearchParams(params).toString();
+  const res = await fetch(`${SB_URL}/rest/v1/${table}?${q}`, {headers: SB_HDR});
+  if(!res.ok){ const e=await res.text(); throw new Error(res.status+': '+e); }
+  return res.json();
 }
 
 async function sbPost(table, data){
-  const {error} = await sb.from(table).insert(data);
-  if(error) throw error;
+  const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {...SB_HDR, 'Prefer': 'return=minimal'},
+    body: JSON.stringify(data)
+  });
+  if(!res.ok){ const e=await res.text(); throw new Error(res.status+': '+e); }
   return true;
 }
 
 // LOAD HERO SLIDES
 async function loadHeroSlides(){
   try {
-    const {data:slides} = await sb.from('hero_slides').select('*').eq('active',true).order('sort_order');
-    if(!slides||!slides.length) return;
+    const slides = await sbFetch('hero_slides', {'active': 'eq.true', 'order': 'sort_order.asc'});
+    if(!slides||!slides.length||slides.error) return;
     const wrap = document.querySelector('.slides');
     wrap.innerHTML = slides.map((s,i)=>`<div class="slide ${i===0?'active':''}" style="background-image:url('${s.image_url}')"></div>`).join('');
     var sl=document.querySelectorAll('.slide'),cur_s=0;
@@ -1198,7 +1203,7 @@ async function loadHeroSlides(){
 // LOAD GALLERY
 async function loadGallery(){
   try {
-    const {data:photos} = await sb.from('gallery').select('*').eq('active',true).order('sort_order');
+    const photos = await sbFetch('gallery', {'active': 'eq.true', 'order': 'sort_order.asc'});
     if(!photos||!photos.length) return;
     const scroll = document.querySelector('.gal-scroll');
     scroll.innerHTML = photos.map((p,i)=>{
@@ -1214,7 +1219,7 @@ async function loadGallery(){
 // LOAD REVIEWS
 async function loadReviews(){
   try {
-    const {data:reviews} = await sb.from('reviews').select('*').eq('approved',true).order('created_at',{ascending:false});
+    const reviews = await sbFetch('reviews', {'approved': 'eq.true', 'order': 'created_at.desc'});
     if(!reviews||!reviews.length) return;
     const slider = document.querySelector('.testi-slider');
     const dotsEl = document.querySelector('.dots');
@@ -1234,7 +1239,7 @@ async function loadReviews(){
 // LOAD PACKAGES
 async function loadPackages(){
   try {
-    const {data:pkgs} = await sb.from('packages').select('*').order('plan_number');
+    const pkgs = await sbFetch('packages', {'order': 'plan_number.asc'});
     if(!pkgs||!pkgs.length) return;
     const grid = document.querySelector('.pkg-grid');
     grid.innerHTML = pkgs.map((p,i)=>`
@@ -1257,7 +1262,7 @@ async function loadPackages(){
 // LOAD SERVICES
 async function loadServices(){
   try {
-    const {data:svcs} = await sb.from('services').select('*').eq('active',true).order('sort_order');
+    const svcs = await sbFetch('services', {'active': 'eq.true', 'order': 'sort_order.asc'});
     if(!svcs||!svcs.length) return;
     const grid = document.querySelector('.svc-grid');
     const icons = ['<path d="M24 4L44 14V34L24 44L4 34V14Z"/><circle cx="24" cy="24" r="7"/>','<rect x="6" y="12" width="36" height="26" rx="1"/><circle cx="24" cy="25" r="7"/>','<path d="M8 36C8 28 14 20 24 18C34 20 40 28 40 36Z"/>','<circle cx="14" cy="34" r="6"/><circle cx="34" cy="30" r="6"/><path d="M20 34V12L40 8V30"/>','<path d="M24 6L27.5 17H40L30 24.5L33.5 36L24 29L14.5 36L18 24.5L8 17H20.5Z"/>','<ellipse cx="24" cy="16" rx="10" ry="9"/><path d="M14 20C10 26 10 34 14 39C18 44 30 44 34 39C38 34 38 26 34 20"/>','<circle cx="10" cy="14" r="4"/><circle cx="22" cy="8" r="4"/><circle cx="34" cy="10" r="4"/><path d="M10 18Q16 28 22 24Q28 20 34 14"/>','<circle cx="24" cy="18" r="9"/><path d="M15 18C9 18 7 24 7 30H41C41 24 39 18 33 18"/>'];
@@ -1294,8 +1299,10 @@ async function submitContact(){
   if(!data.your_name){ alert('Please enter your name.'); return; }
   if(!data.email){ alert('Please enter your email.'); return; }
   btn.textContent='Sending...'; btn.disabled=true; btn.style.opacity='.7';
-  const {error} = await sb.from('contacts').insert(data);
-  if(error){
+  let contactError = null;
+  try { await sbPost('contacts', data); } catch(e) { contactError = e; }
+  const error = contactError;
+  if(contactError){
     console.error('Contact error:',error);
     btn.textContent='Failed — please try again';
     btn.style.background='#e05555'; btn.style.opacity='1'; btn.disabled=false;
